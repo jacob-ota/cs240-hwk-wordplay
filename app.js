@@ -16,6 +16,18 @@ function random_word() {
     return letters;
 }
 
+function hide_words(str) {
+    let blank_word = str
+    let blank = "";
+
+    for(let i = 0; i < str.length; i++) {
+        blank = blank_word.replace(str[i], "_ ");
+        blank_word = blank
+    }
+    return blank;
+}
+
 const word = random_word();
 
 console.log("word:" + word.join(""));
+console.log(hide_words(word.join("")))
