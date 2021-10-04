@@ -114,9 +114,10 @@ function hide_words(str) {
     let good_words = all_words(word)
     let guessed_words = [];
     let correct_counter = 0;
+    let shuffle_word = shuffler(word);
 
     //starting screen with scrammbled word and hidden words
-    console.log("Scrambled Key Word:" + word.join(""));
+    console.log("Scrambled Key Word: " + shuffle_word.join(""));
     console.log('\n');
     for(let i = 0; i < good_words.length; i++) {
         console.log(hide_words(good_words[i]))
@@ -125,8 +126,25 @@ function hide_words(str) {
     //while loop that goes till all words are guessed
     while(correct_counter != good_words.length) {
         let input = prompt("Enter a guess:" );
+        //shuffle letters
+        if(input == '*') {
+            shuffle_word = shuffler(shuffle_word);
+            alert("SHUFFLED LETTERS")
+            console.clear();
+            console.log("Scrambled Key Word:" + shuffle_word.join(""));
+            console.log('\n');
+            //update hidden words board to show correct word
+            for(let i = 0; i < good_words.length; i++) {
+                if(guessed_words.includes(good_words[i])) {
+                    console.log(good_words[i]);
+                }
+                else{
+                    console.log(hide_words(good_words[i]))
+                }
+            }
+        }
         //already guessed
-        if(guessed_words.includes(input)) {
+        else if(guessed_words.includes(input)) {
             alert("Already chose this word, try again")
         }
         //cancel button
@@ -134,13 +152,13 @@ function hide_words(str) {
             break;
         }
         //not a english word, too small/big
-        else if (!dictionary.includes(input) && (input.length < 3 || input.length > 6)) {
+        else if(!dictionary.includes(input) && (input.length < 3 || input.length > 6)) {
             alert("Not an english word!")
         }
-        else if (input.length < 3) {
+        else if(input.length < 3) {
             alert("Word is too small")
         }
-        else if (input.length > 6) {
+        else if(input.length > 6) {
             alert("Word is too big")
         }
         //guessed the right word, prints updated hidden words
@@ -150,7 +168,7 @@ function hide_words(str) {
             console.clear();
             guessed_words.push(input)
             correct_counter++;
-            console.log("word:" + word.join(""));
+            console.log("Scrambled Key Word:" + shuffle_word.join(""));
             console.log('\n');
             //update hidden words board to show correct word
             for(let i = 0; i < good_words.length; i++) {
@@ -163,13 +181,13 @@ function hide_words(str) {
             }
         }
         //incorrect guess
-        else {
+        else{
             alert("Incorrect! " + input + " is not a word!")
         }
     }
     //if all words are guessed
     if(correct_counter == good_words.length) {
-        alert("CONGRATULATION!!! YOU GUESSED ALL THE WORDS")
+        alert("CONGRATULATION!!! YOU GUESSED ALL THE WORDS! \n Press OK to show your results")
     }
     //finishing screen with correct guesses, and reveals the hidden words
     console.clear();
@@ -177,6 +195,23 @@ function hide_words(str) {
     console.log('\n');
     for(let i = 0; i < good_words.length; i++) {
         console.log(good_words[i])
+    }
+
+    /**
+     * Function that takes an array of letters and shuffles them around to
+     * produce a shuffled result of the original array of letters
+     * 
+     * @param {*} arr array of letters to be shuffled
+     * @returns array of letters that have been shuffled from the original
+     */
+    function shuffler(arr) {
+        for(let i = 0; i < arr.length; i++) {
+            let random_idx = Math.floor(Math.random() * arr.length);
+            let random_pick = arr[random_idx];
+            arr.splice(random_idx, 1, arr[i]);
+            arr.splice(i, 1, random_pick);
+        }
+        return arr;
     }
 }
 
