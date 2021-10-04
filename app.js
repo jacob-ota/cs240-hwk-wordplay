@@ -129,11 +129,11 @@ function hide_words(str) {
         //shuffle letters
         if(input == '*') {
             shuffle_word = shuffler(shuffle_word);
-            alert("SHUFFLED LETTERS")
+            alert("SHUFFLING LETTERS \n Press OK to continue")
+            //clear old console output and changes it using the newly shuffled word
             console.clear();
-            console.log("Scrambled Key Word:" + shuffle_word.join(""));
+            console.log("Scrambled Key Word: " + shuffle_word.join(""));
             console.log('\n');
-            //update hidden words board to show correct word
             for(let i = 0; i < good_words.length; i++) {
                 if(guessed_words.includes(good_words[i])) {
                     console.log(good_words[i]);
@@ -168,7 +168,7 @@ function hide_words(str) {
             console.clear();
             guessed_words.push(input)
             correct_counter++;
-            console.log("Scrambled Key Word:" + shuffle_word.join(""));
+            console.log("Scrambled Key Word: " + shuffle_word.join(""));
             console.log('\n');
             //update hidden words board to show correct word
             for(let i = 0; i < good_words.length; i++) {
@@ -206,8 +206,10 @@ function hide_words(str) {
      */
     function shuffler(arr) {
         for(let i = 0; i < arr.length; i++) {
+            //chooses a random number out of the length of the array and the element at that index
             let random_idx = Math.floor(Math.random() * arr.length);
             let random_pick = arr[random_idx];
+            //uses splice to switch the two indexs
             arr.splice(random_idx, 1, arr[i]);
             arr.splice(i, 1, random_pick);
         }
