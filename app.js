@@ -104,14 +104,82 @@ function hide_words(str) {
     return blank;
 }
 
+/**
+ * Function that handles all the conditionals for user input, alerts user and updates the words list as 
+ * appropriate for correctly guessed words, alerts user if other wise. Ends the game if all words are 
+ * guessed or the user presses cancel and displays the end results.
+ */
+ function user_inp() {
+    //create a array of all the subsets of a random word, array to hold guessed words, counter for correct guesses
+    let good_words = all_words(word)
+    let guessed_words = [];
+    let correct_counter = 0;
+
+    //starting screen with scrammbled word and hidden words
+    console.log("Scrambled Key Word:" + word.join(""));
+    console.log('\n');
+    for(let i = 0; i < good_words.length; i++) {
+        console.log(hide_words(good_words[i]))
+    }
+
+    //while loop that goes till all words are guessed
+    while(correct_counter != good_words.length) {
+        let input = prompt("Enter a guess:" );
+        //already guessed
+        if(guessed_words.includes(input)) {
+            alert("Already chose this word, try again")
+        }
+        //cancel button
+        else if(input == null) {
+            break;
+        }
+        //not a english word, too small/big
+        else if (!dictionary.includes(input) && (input.length < 3 || input.length > 6)) {
+            alert("Not an english word!")
+        }
+        else if (input.length < 3) {
+            alert("Word is too small")
+        }
+        else if (input.length > 6) {
+            alert("Word is too big")
+        }
+        //guessed the right word, prints updated hidden words
+        else if(good_words.includes(input)) {
+            alert("Correct! " + input + " is one of the words!")
+            //adds input to guessed_word array, updates correct_counter
+            console.clear();
+            guessed_words.push(input)
+            correct_counter++;
+            console.log("word:" + word.join(""));
+            console.log('\n');
+            //update hidden words board to show correct word
+            for(let i = 0; i < good_words.length; i++) {
+                if(guessed_words.includes(good_words[i])) {
+                    console.log(good_words[i]);
+                }
+                else{
+                    console.log(hide_words(good_words[i]))
+                }
+            }
+        }
+        //incorrect guess
+        else {
+            alert("Incorrect! " + input + " is not a word!")
+        }
+    }
+    //if all words are guessed
+    if(correct_counter == good_words.length) {
+        alert("CONGRATULATION!!! YOU GUESSED ALL THE WORDS")
+    }
+    //finishing screen with correct guesses, and reveals the hidden words
+    console.clear();
+    console.log("You got: " + correct_counter + " out of " + good_words.length + " correct");
+    console.log('\n');
+    for(let i = 0; i < good_words.length; i++) {
+        console.log(good_words[i])
+    }
+}
+
 const word = random_word();
 
-let good_words = all_words(word)
-
-good_words.sort()
-
-console.log(good_words)
-console.log("word:" + word.join(""));
-for(let i = 0; i < good_words.length; i++) {
-    console.log(hide_words(good_words[i]))
-}
+user_inp();
