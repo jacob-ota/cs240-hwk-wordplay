@@ -31,14 +31,12 @@ function random_word() {
  */
 function all_words(arr) {
     const correct_word_arr = [];
-    //gets every letter from the key word and checks to see if any entries
-    //in the dictionary start with that letter and is a length of 3-6
+    //gets every letter from the key word and checks to see if any dictionary entries begin with those letters
     for(let i = 0; i < arr.length; i++) {
         let check_letter = arr[i];
         for(let j = 0; j < dictionary.length; j++) {
             if(dictionary[j].startsWith(check_letter) == true && dictionary[j].length >= 3 && dictionary[j].length <= 6){
-                //uses find_words() below to find out if dictionary[j] is
-                //a true subset of the key word
+                //uses find_words() below to find out if dictionary[j] is a true subset of the key word
                 let checked_word = find_words(dictionary[j]);
                 if(checked_word != undefined) {
                     correct_word_arr.push(checked_word);    
@@ -46,7 +44,6 @@ function all_words(arr) {
             }
             }
         }
-
     /**
      * Function that creates an array to hold a set of "t"'s and a variable
      * that holds the key word. Checks to see if all letters of the word to 
@@ -66,10 +63,9 @@ function all_words(arr) {
             //checks to see if all letters are in the key word
             if(splice_word.includes(try_word[i])) {
                 let to_splice = try_word[i];
-                //add an element to check_arr to check length
+                //add an arbitrary element to check_arr to check length
                 check_arr.push("t");
-                //replaces the just checked letter with a _ so it cannot
-                //checked more than once
+                //replaces the just checked letter with a _ so it cannot be checked more than once
                 splice_word = splice_word.replace(to_splice, "_");
             }
         }
@@ -115,14 +111,12 @@ function hide_words(str) {
     let guessed_words = [];
     let correct_counter = 0;
     let shuffle_word = shuffler(word);
-
     //starting screen with scrammbled word and hidden words
     console.log("Scrambled Key Word: " + shuffle_word.join(""));
     console.log('\n');
     for(let i = 0; i < good_words.length; i++) {
         console.log(hide_words(good_words[i]))
     }
-
     //while loop that goes till all words are guessed
     while(correct_counter != good_words.length) {
         let input = prompt("Enter a guess:" );
